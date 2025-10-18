@@ -1,0 +1,52 @@
+{
+  "expo": {
+    "name": "UoA Your Way",
+    "slug": "uoayourway",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "assets/logos/AppIcon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "assets/logos/VerticalColourLogo.png",
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ],
+      "package": "com.anonymous.uoayourway"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "assets/logos/VerticalColourLogo.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "assets/logos/VerticalColourLogo.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      "expo-font",
+      "expo-secure-store",
+      "expo-video",
+      "expo-audio"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
