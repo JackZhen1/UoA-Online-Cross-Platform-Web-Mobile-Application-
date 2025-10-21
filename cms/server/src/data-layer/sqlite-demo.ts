@@ -86,9 +86,21 @@ db.prepare(`
   );
 `).run();
 
+// --- Programmes ---
+db.prepare(`
+  CREATE TABLE IF NOT EXISTS programmes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    description TEXT,
+    link TEXT,
+    createdAt TEXT,
+    updatedAt TEXT
+  );
+`).run();
 
 const existingUsers = db.prepare("SELECT COUNT(*) as count FROM users").get() as { count: number };
 const existingModules = db.prepare("SELECT COUNT(*) as count FROM newmodules").get() as { count: number };
+const existingProgrammes = db.prepare("SELECT COUNT(*) as count FROM programmes").get() as { count: number };
 const now = new Date().toISOString().replace('Z', '+00:00');
 
 if (existingUsers.count === 0) {
@@ -257,6 +269,23 @@ if (existingModules.count === 0) {
 
   insertAll();
   console.log("✅ Inserted 1 demo module with subsections, links, quiz, and questions.");
+}
+
+if (existingProgrammes.count === 0) {
+  const insertProgramme = db.prepare(`
+    INSERT INTO programmes (id, name, description, link, createdAt, updatedAt)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `);
+  
+  insertProgramme.run(
+      1,
+      "Master of Engineering Project Management",
+      "Solve real-world problems and advance your engineering career with our globally recognised Master of Engineering Project Management.",
+      "https://www.online.auckland.ac.nz/postgraduate-programmes/engineering/master-of-engineering-project-management/",
+      now,
+      now
+    );
+  console.log("✅ Inserted 1 demo programme.")
 }
 
 

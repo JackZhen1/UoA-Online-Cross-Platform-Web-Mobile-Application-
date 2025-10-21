@@ -1,8 +1,13 @@
 import { IProgramme } from "../models/models";
 import { Programme } from "../models/schema";
+import {getAllProgrammes as getSQLiteProgrammes} from "../sqlite-programme" 
 
 export class ProgrammeService {
   public async getAllProgrammes(): Promise<IProgramme[]> {
+    if (process.env.USE_SQLITE === "true") {
+      return getSQLiteProgrammes();
+    }
+    
     try {
       const programmes = await Programme.find();
       return programmes;
