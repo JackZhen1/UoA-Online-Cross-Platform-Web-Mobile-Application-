@@ -16,7 +16,7 @@ export interface IUser {
   country: string;
   programme?: string;
   role: RoleType;
-  createdAt: Date;
+  createdAt?: Date;
 }
 
 export interface IModule {

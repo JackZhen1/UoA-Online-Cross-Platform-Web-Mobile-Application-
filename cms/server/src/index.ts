@@ -19,6 +19,8 @@ import { RegisterRoutes } from "./middleware/__generated__/routes";
 import connectToDatabase from "./data-layer/adapter/mongodb";
 import { ErrorRequestHandler } from "express";
 
+import "./data-layer/sqlite-demo";
+
 export const app = express();
 
 dotenv.config();
@@ -33,49 +35,70 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 };
 
 // ✅ S3 Client
-const s3 = new S3Client({
-  region: process.env.AWS_REGION!,
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-  },
-});
+let s3: S3Client | null = null;
+let upload: any = null;
 
-// ✅ Multer using S3
-const upload = multer({
-  storage: multerS3({
-    s3,
-    bucket: process.env.S3_BUCKET_NAME!,
-    acl: "public-read",
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-    key: (req, file, cb) => {
-      const uniqueName = `${Date.now()}-${file.originalname}`;
-      cb(null, uniqueName);
+if (process.env.USE_SQLITE !== "true") {
+  s3 = new S3Client({
+    region: process.env.AWS_REGION!,
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
     },
-  }),
-});
+  });
+
+  upload = multer({
+    storage: multerS3({
+      s3,
+      bucket: process.env.S3_BUCKET_NAME!,
+      acl: "public-read",
+      contentType: multerS3.AUTO_CONTENT_TYPE,
+      key: (req, file, cb) => {
+        const uniqueName = `${Date.now()}-${file.originalname}`;
+        cb(null, uniqueName);
+      },
+    }),
+  });
+} else {
+  console.log("📦 Skipping S3 setup (SQLite demo mode)");
+}
 
 // Delete file route
-app.delete("/api/library/:key", async (req, res) => {
+app.delete("/api/library/:key", async (req: Request, res: Response): Promise<void> => {
   try {
-    const key = decodeURIComponent(req.params.key); // Important: S3 keys may contain special characters
+    if (!s3) {
+      res.status(503).json({ error: "S3 unavailable in demo mode" });
+      return;
+    }
+
+    const key = decodeURIComponent(req.params.key);
     const command = new DeleteObjectCommand({
       Bucket: process.env.S3_BUCKET_NAME!,
       Key: key,
     });
+
     await s3.send(command);
     res.json({ success: true });
+    return;
   } catch (err) {
     console.error("S3 Delete Error:", err);
     res.status(500).json({ error: "Could not delete file" });
+    return; 
   }
 });
 
-app.get("/api/library", async (req, res) => {
+
+app.get("/api/library", async (req: Request, res: Response): Promise<void> => {
   try {
+    if (!s3) {
+      res.status(503).json({ error: "S3 unavailable in demo mode" });
+      return;
+    }
+
     const command = new ListObjectsV2Command({
       Bucket: process.env.S3_BUCKET_NAME!,
     });
+
     const data = await s3.send(command);
     const files =
       data.Contents?.map((item) => ({
@@ -83,29 +106,35 @@ app.get("/api/library", async (req, res) => {
         url: `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${item.Key}`,
         lastModified: item.LastModified
           ? new Date(item.LastModified).toISOString()
-          : null, // <-- ADD THIS LINE!
+          : null,
       })) || [];
+
     res.json(files);
+    return;
   } catch (err) {
     console.error("S3 List Error:", err);
     res.status(500).json({ error: "Could not list files" });
+    return;
   }
 });
 
 // ✅ Upload endpoint
-app.post(
-  "/api/upload",
-  upload.single("file"),
-  (req: Request, res: Response): void => {
-    if (!req.file || typeof req.file !== "object") {
-      res.status(400).json({ error: "Upload failed" });
+app.post("/api/upload", (req: Request, res: Response): void => {
+  if (!upload) {
+    res.status(503).json({ error: "Upload unavailable in demo mode" });
+    return;
+  }
+  upload.single("file")(req, res, (err: any) => {
+    if (err) {
+      res.status(500).json({ error: "Upload failed" });
       return;
     }
-
     const fileUrl = (req.file as any).location;
     res.status(200).json({ url: fileUrl });
-  },
-);
+  });
+});
+
+
 
 // Swagger + Routes
 RegisterRoutes(app);
@@ -113,14 +142,21 @@ app.use("/swagger", swaggerUI.serve, swaggerUI.setup(swaggerJson));
 
 const port = Number(process.env.PORT) || 3000;
 
+
 const startServer = async () => {
   try {
-    await connectToDatabase();
-    app.listen(port, "0.0.0.0", () =>
-      console.log(`Server running on port ${port}`),
-    );
+    if (process.env.USE_SQLITE === "true") {
+      console.log("📦 Running in local SQLite demo mode (no MongoDB connection)");
+    } else {
+      console.log("🔗 Connecting to MongoDB...");
+      await connectToDatabase();
+    }
+
+    app.listen(port, "0.0.0.0", () => {
+      console.log(`✅ Server running on http://localhost:${port}`);
+    });
   } catch (error) {
-    console.error("ERROR Connecting to Database", error);
+    console.error("❌ ERROR starting server:", error);
   }
 };
 

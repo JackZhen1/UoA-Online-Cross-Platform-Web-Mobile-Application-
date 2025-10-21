@@ -8,6 +8,9 @@ import { IUser } from "../models/models";
 import { User } from "../models/schema";
 import * as bcrypt from "bcrypt";
 
+import { verifyUser } from "../../data-layer/sqlite-demo";
+
+
 export type UserCreationParams = Pick<
   IUser,
   | "first_name"
@@ -147,6 +150,11 @@ export class UserService {
     email: string,
     password: string,
   ): Promise<IUser | null> {
+    if (process.env.USE_SQLITE === "true") {
+      const user = verifyUser(email, password);
+      return user ? (user as any) : null; 
+    }
+    
     try {
       const user = await User.findOne({ email: email });
 
