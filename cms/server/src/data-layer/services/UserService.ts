@@ -9,7 +9,7 @@ import { User } from "../models/schema";
 import * as bcrypt from "bcrypt";
 
 import { verifyUser } from "../../data-layer/sqlite-demo";
-
+import { getPaginatedUsers as getSQLiteUsers } from "../sqlite-user";
 
 export type UserCreationParams = Pick<
   IUser,
@@ -57,6 +57,10 @@ export class UserService {
     limit = 10,
     page = 1,
   ): Promise<PaginatedUserResponse | null> {
+    if (process.env.USE_SQLITE === "true") {
+      return getSQLiteUsers(limit, page);
+    }
+
     try {
       const skip = (page - 1) * limit;
       const fetchedUsers = await User.find().skip(skip).limit(limit);

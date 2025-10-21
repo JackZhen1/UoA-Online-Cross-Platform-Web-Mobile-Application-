@@ -15,22 +15,35 @@ db.prepare(`
     colorPref TEXT,
     country TEXT,
     programme TEXT,
-    role TEXT
+    role TEXT,
+    createdAt TEXT
   );
 `).run();
 
-const existing = db.prepare("SELECT * FROM users WHERE email = ?").get("demo@demo.com");
-if (!existing) {
-  db.prepare("INSERT INTO users (first_name, last_name, email, password, avatar, colorPref, country, programme, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)").run( 
-  "demo",
-  "A",
-  "demo@demo.com",
-  "123456",      
-  "panda",
-  "dark",
-  "New Zealand",
-  "Master of Civil Engineering",
-  "admin");
+const existingUsers = db.prepare("SELECT COUNT(*) as count FROM users").get() as { count: number };
+
+if (existingUsers.count === 0) {
+  const insert = db.prepare(`
+    INSERT INTO users (id, first_name, last_name, email, password, avatar, colorPref, country, programme, role, createdAt)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+  
+  const now = new Date().toISOString().replace('Z', '+00:00');
+
+  const sampleUsers = [
+    [1, "Demo", "Admin", "demo@demo.com", "123456", "panda", "dark", "New Zealand", "Master of Civil Engineering", "admin", now],
+    [2, "Alice", "Smith", "alice@example.com", "123456", "default", "light", "Australia", "Master of Civil Engineering", "user", now],
+    [3, "Bob", "Johnson", "bob@example.com", "123456", "fox", "dark", "Canada", "Master of Engineering Project Management", "user", now],
+    [4, "Charlie", "Lee", "charlie@example.com", "123456", "dog", "light", "Singapore", "Master of Civil Engineering", "user", now],
+    [5, "Eva", "Wang", "eva@example.com", "123456", "koala", "dark", "China", "Master of Engineering Project Management", "user", now],
+  ];
+
+  const insertMany = db.transaction((users) => {
+    for (const user of users) insert.run(...user);
+  });
+
+  insertMany(sampleUsers);
+  console.log("✅ Inserted 5 demo users into SQLite database.");
 }
 
 export function verifyUser(email: string, password: string) {
