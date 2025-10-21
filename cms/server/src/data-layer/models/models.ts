@@ -54,8 +54,8 @@ export interface ISubsection {
   title: string;
   body: string;
   iconKey?: string; 
-  authorID: string;
-  published: boolean;
+  authorID?: string;
+  published?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
