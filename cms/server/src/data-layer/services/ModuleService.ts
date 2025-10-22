@@ -19,6 +19,8 @@ import {
   QuizDTO,
   QuestionDTO,
 } from "../../service-layer/response-models/ModuleResponse";
+import { getAllModules as getSQLiteModules} from "../../data-layer/sqlite-modules";
+import db from "../sqlite-demo";
 
 export class ModuleService {
   /**
@@ -26,6 +28,9 @@ export class ModuleService {
    * @returns List of all modules
    */
   public async getAllModules(): Promise<IModule[]> {
+    if (process.env.USE_SQLITE === 'true') {
+      return getSQLiteModules();
+    }
     const fetchedModules = await newModule
       .find()
       .sort({ sortOrder: 1 }) // make sure we sort by sortOrder
@@ -255,6 +260,10 @@ export class ModuleService {
   }
 
   public async getSubsectionById(subsectionId: string): Promise<ISubsection> {
+    if (process.env.USE_SQLITE === "true") {
+      const subsection = db.prepare("SELECT * FROM subsections WHERE id = ?").get(subsectionId);
+      return subsection as ISubsection;
+    }
     const subsection = await Subsection.findById(subsectionId);
     if (!subsection) {
       throw new Error("Subsection Not Found");
@@ -374,6 +383,13 @@ export class ModuleService {
 
   public async getQuizById(quizId: string): Promise<IQuiz | null> {
     try {
+      if (process.env.USE_SQLITE === "true") {
+        const quiz = db.prepare("SELECT * FROM quizzes WHERE id = ?").get(quizId);
+        if (!quiz) {
+          return null;
+        }
+        return quiz as IQuiz;
+      }
       const quiz = await Quiz.findById(quizId).populate("questions").exec();
       if (!quiz) {
         return null;
@@ -578,6 +594,11 @@ export class ModuleService {
 
   public async getLinkById(id: string): Promise<ILink> {
     try {
+      if (process.env.USE_SQLITE === "true") {
+        const link = db.prepare("SELECT * FROM links WHERE id = ?").get(id);
+        if (!link) return null;
+        return link as ILink;
+  }
       return await Link.findById(id);
     } catch (error) {
       console.error("Error reading link:", error);
