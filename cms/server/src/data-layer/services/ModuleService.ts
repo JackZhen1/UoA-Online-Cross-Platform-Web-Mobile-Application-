@@ -384,11 +384,57 @@ export class ModuleService {
   public async getQuizById(quizId: string): Promise<IQuiz | null> {
     try {
       if (process.env.USE_SQLITE === "true") {
-        const quiz = db.prepare("SELECT * FROM quizzes WHERE id = ?").get(quizId);
-        if (!quiz) {
-          return null;
+        interface QuizRow {
+          id: number;
+          module_id: number;
+          title: string;
+          description: string;
+          createdAt?: string;
+          updatedAt?: string;
+          iconKey?: string | null;
         }
-        return quiz as IQuiz;
+        interface QuestionRow {
+          id: number;
+          quiz_id: number;
+          question: string;
+          optionA: string | null;
+          optionB: string | null;
+          optionC: string | null;
+          optionD: string | null;
+          correctAnswer: string;
+          createdAt?: string;
+        }
+
+        const quiz = db
+          .prepare(`SELECT * FROM quizzes WHERE id = ?`)
+          .get(quizId) as QuizRow | undefined;
+        if (!quiz) return null;
+
+        const questions = db
+          .prepare(`SELECT * FROM questions WHERE quiz_id = ?`)
+          .all(quiz.id) as QuestionRow[];
+
+        const result: IQuiz = {
+          title: quiz.title,
+          description: quiz.description,
+          createdAt: quiz.createdAt ? new Date(quiz.createdAt) : new Date(),
+          updatedAt: quiz.updatedAt ? new Date(quiz.updatedAt) : new Date(),
+          iconKey: quiz.iconKey ?? undefined,
+          questions: questions.map((q) => q.id.toString()) as any,
+        };
+        
+        const populated: (IQuiz & { questions: IQuestion[] }) = {
+          ...result,
+          questions: questions.map((q): IQuestion => ({
+            id: q.id.toString(),
+            question: q.question,
+            options: [q.optionA, q.optionB, q.optionC, q.optionD].filter(Boolean) as string[],
+            correctAnswer: q.correctAnswer,
+            createdAt: q.createdAt ? new Date(q.createdAt) : new Date(),
+          })),
+        };
+        return populated as any;
+
       }
       const quiz = await Quiz.findById(quizId).populate("questions").exec();
       if (!quiz) {

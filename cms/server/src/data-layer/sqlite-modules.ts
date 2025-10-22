@@ -15,7 +15,5 @@ export function getAllModules(): IModule[] {
     quizIds: (getQuizzes.all(m.id) as { id: number }[]).map((r) => r.id) as unknown as ObjectId[],
     linkIds: (getLinks.all(m.id) as { id: number }[]).map((r) => r.id) as unknown as ObjectId[],
   }));
-
-  console.log(result);
   return result as unknown as IModule[];
 }

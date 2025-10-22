@@ -68,7 +68,7 @@ export interface ChangePasswordRequest {
 export interface IQuiz {
   title: string;
   description: string;
-  questions: Types.ObjectId[];
+  questions: (Types.ObjectId | IQuestion)[];
   createdAt: Date;
   updatedAt: Date;
   iconKey?: string; 
