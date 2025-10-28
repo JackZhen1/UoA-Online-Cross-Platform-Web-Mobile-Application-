@@ -41,6 +41,7 @@ let upload: any = null;
 if (process.env.USE_SQLITE !== "true") {
   s3 = new S3Client({
     region: process.env.AWS_REGION!,
+    endpoint: process.env.R2_ENDPOINT!,
     credentials: {
       accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
