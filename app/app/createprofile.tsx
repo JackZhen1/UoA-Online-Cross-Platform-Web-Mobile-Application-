@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   useColorScheme,
+  Alert
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { ThemeContext } from '@/contexts/ThemeContext';
@@ -44,6 +45,12 @@ export default function CreateProfileScreen() {
       return;
     }
     try {
+      Alert.alert(
+        'Feature Unavailable',
+        'The “Create Account” feature is disabled in demo mode. In the full version, it would create a new user profile and take you to the home page.'
+      );
+      return
+      
       await api.post('/users', {
         first_name: firstName,
         last_name: lastName,

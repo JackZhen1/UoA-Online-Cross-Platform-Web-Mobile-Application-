@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, StyleSheet, Keyboard } from 'react-native';
+import { View, StyleSheet, Keyboard, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ThemeContext } from '@/contexts/ThemeContext';
 import api from '@/app/lib/api';
@@ -38,6 +38,11 @@ export default function ChangePasswordScreen() {
       }
 
       try {
+        Alert.alert(
+          'Feature Unavailable',
+          'The “Change Password” function is disabled in demo mode. In the full version, this would update your password and redirect you to the login screen.'
+        );
+        return
          const res = await api.post<{ message: string }>('/auth/changePassword', {
           oldPassword: currentPassword,
           newPassword,

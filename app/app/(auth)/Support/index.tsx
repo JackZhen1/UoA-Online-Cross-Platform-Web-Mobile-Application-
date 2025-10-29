@@ -26,44 +26,44 @@ export default function SupportScreen() {
       'This feature is disabled in demo mode. In the full version, it would automatically send an email containing the user\'s contact details and enquiry to the support team.'
     );
     return
-    // const data = {
-    //   first_name: firstName,
-    //   last_name: lastName,
-    //   preferred_email: email,
-    //   contact_number: contact,
-    //   enquiry_message: `Enquiry message: ${enquiry}`,
-    //   title: 'UoA Your Way Support Request'
-    // };
+    const data = {
+      first_name: firstName,
+      last_name: lastName,
+      preferred_email: email,
+      contact_number: contact,
+      enquiry_message: `Enquiry message: ${enquiry}`,
+      title: 'UoA Your Way Support Request'
+    };
 
-    // try {
-    //   const response = await api.post(
-    //   '/support',
-    //   data,                         
-    //   {
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     }
-    //   }
-    //   );
+    try {
+      const response = await api.post(
+      '/support',
+      data,                         
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+      );
 
-    //   if (response.status === 204) {
-    //     Alert.alert('Success', 'Your enquiry has been sent.');
-    //     setFirstName('');
-    //     setLastName('');
-    //     setEmail('');
-    //     setContact('');
-    //     setEnquiry('');
-    //   } else {
-    //       console.warn('Unexpected status code:', response.status);
-    //       Alert.alert('Error', 'Failed to send enquiry.');
-    //     }
-    // } catch (error: any) {
-    //   console.error('Submit error:', error.response?.data || error.message);
-    //   const msg =
-    //     error.response?.data?.message ||
-    //     'Network error while sending enquiry.';
-    //   Alert.alert('Error', msg);
-    // }
+      if (response.status === 204) {
+        Alert.alert('Success', 'Your enquiry has been sent.');
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+        setContact('');
+        setEnquiry('');
+      } else {
+          console.warn('Unexpected status code:', response.status);
+          Alert.alert('Error', 'Failed to send enquiry.');
+        }
+    } catch (error: any) {
+      console.error('Submit error:', error.response?.data || error.message);
+      const msg =
+        error.response?.data?.message ||
+        'Network error while sending enquiry.';
+      Alert.alert('Error', msg);
+    }
   };
 
   return (

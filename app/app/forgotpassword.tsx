@@ -33,6 +33,12 @@ export default function ContactFormScreen() {
     };
 
     try {
+      Alert.alert(
+        'Feature Unavailable',
+        'The “Forgot Password” function is disabled in demo mode. In the full version, it would automatically send an email containing the user\'s contact details to the support team.'
+      );
+      return
+
       const response = await api.post('/support', data, {
         headers: {
           'Content-Type': 'application/json',
