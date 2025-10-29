@@ -3,7 +3,6 @@ import * as MdIcons from 'react-icons/md';
 import debounce from 'lodash.debounce';
 import { FixedSizeGrid as Grid } from 'react-window';
 
-// 把 MdIcons 里的所有导出组件过滤出来
 const ICONS: { key: string; Comp: ComponentType<any> }[] = Object.entries(MdIcons)
     .filter(([key]) => key.startsWith('Md'))
     .map(([key, Comp]) => ({
@@ -12,7 +11,7 @@ const ICONS: { key: string; Comp: ComponentType<any> }[] = Object.entries(MdIcon
   }));
 
 interface IconPickerProps {
-  value?: string;                    // 当前选的 iconKey，比如 "MaterialIcons#home"
+  value?: string;                    
   onChange: (iconKey: string) => void;
 }
 
@@ -29,7 +28,7 @@ export const IconPicker: React.FC<IconPickerProps> = ({ value, onChange }) => {
     debounced(e.target.value);
   }, [debounced]);
 
-  // 过滤搜索结果
+
   const filtered = useMemo(
     () => ICONS.filter(({ key }) => key.toLowerCase().includes(search.toLowerCase())),
     [search]
@@ -53,7 +52,7 @@ export const IconPicker: React.FC<IconPickerProps> = ({ value, onChange }) => {
       <Grid
       columnCount={columnCount}
       columnWidth={cellSize}
-      height={cellSize * rowsToShow}     // 只展示 4 行即可滚动
+      height={cellSize * rowsToShow}     
       rowCount={rowCount}
       rowHeight={cellSize}
       width={columnCount * cellSize + 16}
@@ -62,10 +61,12 @@ export const IconPicker: React.FC<IconPickerProps> = ({ value, onChange }) => {
         const index = rowIndex * columnCount + columnIndex;
         if (index >= filtered.length) return null;
         const { key, Comp } = filtered[index];
-        const raw = key.replace(/^Md/, '');                 // "AddCircleOutline"
+        const raw = key
+          .replace(/^Md/, '')         
+          .replace(/(Outlined|Round|Sharp|TwoTone|Filled)$/, '');             
         const name = raw
-            .split(/(?=[A-Z])/)                               // ["Add","Circle","Outline"]
-            .map(s => s.toLowerCase())                        // ["add","circle","outline"]
+            .split(/(?=[A-Z])/)                               
+            .map(s => s.toLowerCase())                       
             .join('-'); 
         const iconKey = `MaterialIcons#${name}`;
 
