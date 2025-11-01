@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { Programme } from "../types/interfaces"
 
 
@@ -11,31 +10,16 @@ interface EditProgrammeFormProps {
 
 const EditProgrammeForm: React.FC<EditProgrammeFormProps> = ({
   programme,
-  onProgrammeUpdated,
   setEditProgramme,
 }) => {
   const [name, setName] = useState(programme.name);
   const [description, setDescription] = useState(programme.description);
   const [link, setLink] = useState(programme.link); 
-  const [error, setError] = useState("");
+  const [error] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    try {
-      const token = localStorage.getItem("authToken")
-      await axios.put(
-        
-        `${process.env.REACT_APP_API_URL}/api/programmes/${programme._id}`,
-        { name, description, link }, 
-                { headers: { Authorization: `Bearer ${token}` } }
-
-      );
-      onProgrammeUpdated();
-    } catch (err) {
-      setError("Failed to update programme.");
-      console.error(err);
-    }
+    window.alert("🚫 Update programme information is disabled in demo mode."); 
   };
 
   return (

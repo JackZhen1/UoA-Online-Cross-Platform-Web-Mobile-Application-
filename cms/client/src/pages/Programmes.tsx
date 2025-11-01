@@ -56,17 +56,8 @@ const ProgrammesPage = () => {
   };
 
   const handleDelete = async (programmeId: string) => {
-        const token = localStorage.getItem("authToken");
-
     if (window.confirm("Are you sure you want to delete this programme?")) {
-      try {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/api/programmes/${programmeId}`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        fetchProgrammes();
-      } catch (error) {
-        console.error("Failed to delete programme:", error);
-      }
+      window.alert("🚫 Programme deletion is disabled in demo mode."); 
     }
   };
 

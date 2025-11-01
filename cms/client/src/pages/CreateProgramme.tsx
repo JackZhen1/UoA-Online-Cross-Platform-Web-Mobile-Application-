@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 interface CreateProgrammeProps {
   onProgrammeCreated?: () => void;
@@ -9,34 +8,12 @@ const CreateProgramme: React.FC<CreateProgrammeProps> = ({ onProgrammeCreated })
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
+  const [success] = useState<string | null>(null);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    const programmeData = {
-      name,
-      description,
-      link,
-    };
-
-    try {
-      const token = localStorage.getItem("authToken")
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/programmes`, programmeData,         { headers: { Authorization: `Bearer ${token}` } }
-);
-      if (onProgrammeCreated) onProgrammeCreated();
-      setSuccess("Programme created successfully!");
-      setName("");
-      setDescription("");
-      setLink("");
-      setError(null);
-      console.log(response.data);
-    } catch (error: any) {
-      setError("Error creating programme!");
-      setSuccess(null);
-      console.error(error);
-    }
+    window.alert("🚫 Programme creation is disabled in demo mode."); 
   };
 
   return (
