@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 interface CreateUserProps {
   onUserCreated?: () => void;
@@ -17,36 +16,7 @@ const CreateUser: React.FC<CreateUserProps> = ({ onUserCreated }) => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    const userData = {
-      first_name,
-      last_name,
-      email,
-      password,
-      country,
-      programme,
-    };
-
-    try {
-      
-      const token = localStorage.getItem("authToken")
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users`, userData, { headers: { Authorization: `Bearer ${token}` } }
-);
-      if (onUserCreated) onUserCreated();
-      setSuccess("User created successfully!");
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setPassword("");
-      setCountry("");
-      setProgramme("");
-      setError(null);
-      console.log(response.data);
-    } catch (error: any) {
-      setError("Error creating user!");
-      setSuccess(null);
-      console.error(error);
-    }
+    window.alert("🚫 User creation is disabled in demo mode."); 
   };
 
   return (

@@ -99,18 +99,8 @@ const UsersPage: React.FC = () => {
   };
 
   const handleDelete = async (userId: string) => {
-          const token = localStorage.getItem("authToken");
-
     if (window.confirm("Are you sure you want to delete this user?")) {
-      try {
-        await axios.delete(
-          `${process.env.REACT_APP_API_URL}/api/users/${userId}`, { headers: { Authorization: `Bearer ${token}` } }
-          
-        );
-        fetchAllUsers();
-      } catch (error) {
-        console.error("Failed to delete user:", error);
-      }
+      window.alert("🚫 User deletion is disabled in demo mode."); 
     }
   };
 

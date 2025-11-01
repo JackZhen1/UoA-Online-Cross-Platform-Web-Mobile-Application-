@@ -1,6 +1,5 @@
 
 import React, { useState } from "react";
-import axios from "axios";
 
 interface User {
   id: string;
@@ -34,28 +33,7 @@ const EditUserForm: React.FC<EditUserFormProps> = ({ user, onUserUpdated, setEdi
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    const updatedUser = {
-        "first_name": first_name,
-        "last_name": last_name,
-        "email": email,
-        "password": password,
-        "country": country,
-        "programme": programme,
-        "role": role,
-      };
-
-    try {
-      const token = localStorage.getItem("authToken")
-      await axios.put(`${process.env.REACT_APP_API_URL}/api/users/${user.id}`, updatedUser,         { headers: { Authorization: `Bearer ${token}` } }
-);
-      onUserUpdated();
-      setEditUser(null);
-      setSuccess("User successfully edited")
-    } catch (error) {
-      console.error("Failed to update user:", error);
-      setError("Failed to edit user")
-    }
+    window.alert("🚫 Edit user is disabled in demo mode."); 
   };
 
 
