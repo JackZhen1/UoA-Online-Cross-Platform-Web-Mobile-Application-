@@ -3,12 +3,10 @@ import { ScrollView, ActivityIndicator, Text, useWindowDimensions, View, StyleSh
 import { Subsection } from '@/types/types';
 import { useLocalSearchParams } from 'expo-router';
 import { ThemeContext } from '@/contexts/ThemeContext';
-
 import RenderHtml from 'react-native-render-html';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import IframeRenderer, { iframeModel } from '@native-html/iframe-plugin';
 import WebView from 'react-native-webview';
-
 import api from '@/app/lib/api';
 
 export default function SubsectionScreen() {
@@ -29,23 +27,58 @@ export default function SubsectionScreen() {
       .finally(() => setLoading(false));
   }, [subsectionId]);
 
-  if (loading) return <ActivityIndicator size="large" style={{ flex: 1, justifyContent: 'center' }} />;
-  if (!data) return <Text style={{ color: theme.text }}>Loading failed, please try again</Text>;
+  if (loading)
+    return <ActivityIndicator size="large" style={{ flex: 1, justifyContent: 'center' }} />;
+  if (!data)
+    return <Text style={{ color: theme.text }}>Loading failed, please try again</Text>;
 
   const renderers = {
     iframe: (props: any) => {
       const src = (props.tnode.attributes.src ?? '').toString();
-      const match = src.match(/youtube\.com\/embed\/([\w-]+)/);
-      if (match) {
-        return <YoutubePlayer height={230} videoId={match[1]} />;
+      const youtubeMatch = src.match(/youtube\.com\/embed\/([\w-]+)/) || src.match(/youtu\.be\/([\w-]+)/);
+      const vimeoMatch = src.match(/vimeo\.com\/video\/(\d+)/);
+
+      if (youtubeMatch) {
+        const videoId = youtubeMatch[1];
+        return (
+          <View style={{ aspectRatio: 16 / 9, borderRadius: 8, overflow: 'hidden', marginVertical: 8 }}>
+            <YoutubePlayer height={230} videoId={videoId} />
+          </View>
+        );
       }
+
+      if (vimeoMatch) {
+        const videoId = vimeoMatch[1];
+        const embedUrl = `https://player.vimeo.com/video/${videoId}`;
+        return (
+          <WebView
+            source={{ uri: embedUrl }}
+            style={{ width: '100%', height: 230, borderRadius: 8, marginVertical: 8 }}
+            allowsFullscreenVideo
+            javaScriptEnabled
+            domStorageEnabled
+            mediaPlaybackRequiresUserAction={false}
+            startInLoadingState
+          />
+        );
+      }
+
+      if (!src) {
+        return <Text style={{ color: theme.text }}>Video failed to load.</Text>;
+      }
+
       return (
         <WebView
           source={{ uri: src }}
-          style={{ width: '100%', height: 230, borderRadius: 8 }}
+          style={{ width: '100%', height: 230, borderRadius: 8, marginVertical: 8 }}
+          allowsFullscreenVideo
+          javaScriptEnabled
+          domStorageEnabled
+          mediaPlaybackRequiresUserAction={false}
+          startInLoadingState
         />
       );
-    }
+    },
   };
 
   return (
@@ -56,7 +89,7 @@ export default function SubsectionScreen() {
           source={{ html: data.body }}
           WebView={WebView}
           enableCSSInlineProcessing={true}
-          renderers={{ iframe: IframeRenderer }}
+          renderers={renderers}
           customHTMLElementModels={{ iframe: iframeModel }}
           tagsStyles={{
             p: {
@@ -119,7 +152,7 @@ export default function SubsectionScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, 
+    flex: 1,
     padding: 20,
   },
 });
