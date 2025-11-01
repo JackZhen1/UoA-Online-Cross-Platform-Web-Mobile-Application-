@@ -92,73 +92,11 @@ const EditModuleForm: React.FC<EditModuleFormProps> = ({ module, onModuleUpdated
   };
 
   const handleAddSubsection = async () => {
-    try {
-      
-      const token = localStorage.getItem("authToken");
-
-      const newSubsectionData = {
-        title: "New Subsection",
-        body: "<p>Enter content here...</p>",
-        authorID: "system"
-      };
-      
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/modules/${module._id}`,
-        newSubsectionData, {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          }
-      );
-
-   
-      const newSubsection = response.data;
-      setSubsections(prev => [...prev, newSubsection]);
-      setModuleSubsectionIds(prev => [...prev, newSubsection._id]);
-      setSuccess("Subsection added successfully");
-      setError(null);
-    } catch (error) {
-      console.error("Failed to add subsection:", error);
-      setError(`Failed to add subsection: ${error instanceof Error ? error.message : 'Unknown error'}`);
-      setSuccess(null);
-    }
+    window.alert("🚫 Subsection creation is disabled in demo mode.");
   };
 
   const handleDeleteSubsection = async (subsectionId: string) => {
-      try {
-        if (!subsectionId) {
-          setError("Cannot delete subsection: Subsection ID is missing");
-          return;
-        }
-
-        const token = localStorage.getItem("authToken");
-        const moduleId = module._id;
-        
-        if (!moduleId) {
-          setError("Cannot delete subsection: Module ID is missing");
-          return;
-        }
-        await axios.delete(
-          `${process.env.REACT_APP_API_URL}/api/modules/${moduleId}/${subsectionId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          }
-        );
-
-        setSubsections(prev => prev.filter(s => s._id !== subsectionId));
-        setModuleSubsectionIds(prev => prev.filter(id => id !== subsectionId));
-        
-        setDeleteConfirmSubsection(null);
-        setSuccess("Subsection deleted successfully");
-        setError(null);
-
-      } catch (error) {
-        console.error("Failed to delete subsection:", error);
-        setError(`Failed to delete subsection: ${error instanceof Error ? error.message : 'Unknown error'}`);
-        setSuccess(null);
-      }
+    window.alert("🚫 Subsection deletion is disabled in demo mode.");
     };
 
   const toggleEditSubsection = (id: string) => {
@@ -185,61 +123,11 @@ const handleDragEnd = (result: DropResult) => {
 };
 
  const handleAddQuiz = async () => {
-    try {
-      const moduleId = getModuleId();
-      if (!moduleId) {
-        setError("Cannot add quiz: Module ID is missing");
-        return;
-      }
-
-      const token = localStorage.getItem("authToken");
-      const response = await axios.post<Quiz>(
-        `${process.env.REACT_APP_API_URL}/api/modules/${moduleId}/quiz`,
-        {
-          title: "New Quiz",
-          description: "Quiz description..."
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
-      
-      const newQuiz = response.data;
-      newQuiz.questions = newQuiz.questions || [];
-      
-      setQuizzes([...quizzes, newQuiz]);
-      setModuleQuizIds([...moduleQuizIds, newQuiz._id]);
-      setSuccess("Quiz added successfully");
-      setError(null);
-    } catch (error) {
-      console.error("Failed to add quiz:", error);
-      setError("Failed to add quiz");
-      setSuccess(null);
-    }
+    window.alert("🚫 Quiz creation is disabled in demo mode.");
   };
 
   const handleDeleteQuiz = async (quizId: string) => {
-    try {
-      const moduleId = getModuleId();
-      const token = localStorage.getItem("authToken");
-      
-      await axios.delete(
-        `${process.env.REACT_APP_API_URL}/api/modules/quiz/${moduleId}/${quizId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      
-      setQuizzes(prev => prev.filter(q => q._id !== quizId));
-      setModuleQuizIds(prev => prev.filter(id => id !== quizId));
-      setDeleteConfirmQuiz(null);
-      setSuccess("Quiz deleted successfully");
-      setError(null);
-    } catch (error) {
-      console.error("Failed to delete quiz:", error);
-      setError(`Failed to delete quiz: ${error instanceof Error ? error.message : 'Unknown error'}`);
-      setSuccess(null);
-    }
+    window.alert("🚫 Quiz deletion is disabled in demo mode.");
   };
 
   const handleQuizChange = (quizId: string, field: keyof Omit<Quiz, '_id' | 'questions'>, value: string) => {
@@ -291,188 +179,24 @@ const handleDragEnd = (result: DropResult) => {
   };
 
   const handleAddQuestion = async (quizId: string) => {
-  try {
-    const token = localStorage.getItem("authToken");
-    const response = await axios.post<Question>(
-      `${process.env.REACT_APP_API_URL}/api/modules/quiz/${quizId}`,
-      {
-        question: "Enter your question here",
-        options: ["Option 1", "Option 2", "Option 3", "Option 4"],
-        correctAnswer: "Option 1"
-      },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-
-    const newQuestion = response.data;
-    setQuizzes(prev => 
-      prev.map(quiz => 
-        quiz._id === quizId 
-          ? { ...quiz, questions: [...quiz.questions, newQuestion] } 
-          : quiz
-      )
-    );
-    setSuccess("Question added successfully");
-    setError(null);
-  } catch (error) {
-    console.error("Failed to add question:", error);
-    setError(`Failed to add question: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    setSuccess(null);
-  }
-};
+    window.alert("🚫 Question creation is disabled in demo mode.");
+  };
 
   const handleRemoveQuestion = async (quizId: string, questionId: string) => {
-    try {
-      const token = localStorage.getItem("authToken");
-      await axios.delete(
-        `${process.env.REACT_APP_API_URL}/api/modules/quiz/${quizId}/question/${questionId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      
-      setQuizzes((prevQuizzes) =>
-        prevQuizzes.map((quiz) => {
-          if (quiz._id !== quizId) return quiz;
-          return { ...quiz, questions: quiz.questions.filter(q => q._id !== questionId) };
-        })
-      );
-      setSuccess("Question removed successfully");
-      setError(null);
-    } catch (error) {
-      console.error("Failed to remove question:", error);
-      setError(`Failed to remove question: ${error instanceof Error ? error.message : String(error)}`);
-      setSuccess(null);
-    }
+    window.alert("🚫 Question deletion is disabled in demo mode.");
   };
 
   const handleAddLink = async () => {
-    try {
-      const moduleId = getModuleId();
-      const token = localStorage.getItem("authToken");
-      const linkData = {
-        title: "New Link",
-        link: "https://example.com"
-      };
-
-      await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/modules/link/${moduleId}`,
-        linkData,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      const response = await axios.get<Module>(
-        `${process.env.REACT_APP_API_URL}/api/modules/${moduleId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      if (response.data.linkIds && response.data.linkIds.length > 0) {
-        const newLinkId = response.data.linkIds[response.data.linkIds.length - 1];
-        const linkResponse = await axios.get<Link>(
-          `${process.env.REACT_APP_API_URL}/api/modules/link/${newLinkId}`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        
-        setLinks([...links, linkResponse.data]);
-        setModuleLinkIds([...moduleLinkIds, newLinkId]);
-      }
-      
-      setSuccess("Link added successfully");
-      setError(null);
-    } catch (error) {
-      console.error("Failed to add link:", error);
-      setError(`Failed to add link: ${error instanceof Error ? error.message : 'Unknown error'}`);
-      setSuccess(null);
-    }
+    window.alert("🚫 Link creation is disabled in demo mode.");
   };
 
   const handleDeleteLink = async (linkId: string) => {
-    try {
-      const moduleId = getModuleId();
-      if (!moduleId) {
-        setError("Cannot delete link: Module ID is missing");
-        return;
-      }
-
-      const token = localStorage.getItem("authToken");
-      await axios.delete(
-        `${process.env.REACT_APP_API_URL}/api/modules/link/${moduleId}/${linkId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      
-      setLinks(links.filter(link => link._id !== linkId));
-      setModuleLinkIds(moduleLinkIds.filter(id => id !== linkId));
-      setDeleteConfirmLink(null);
-      setSuccess("Link deleted successfully");
-      setError(null);
-    } catch (error) {
-      console.error("Failed to delete link:", error);
-      setError(`Failed to delete link: ${error instanceof Error ? error.message : 'Unknown error'}`);
-      setSuccess(null);
-    }
+    window.alert("🚫 Link deletion is disabled in demo mode."); 
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const moduleId = getModuleId();
-    if (!moduleId) {
-      setError("Cannot update module: Module ID is missing");
-      return;
-    }
-
-    const updatedModule = {
-      title,
-      description,
-      subsectionIds: moduleSubsectionIds,
-    };
-
-    try {
-      const token = localStorage.getItem("authToken");
-      await axios.put(
-        `${process.env.REACT_APP_API_URL}/api/modules/${moduleId}`,
-        updatedModule,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      
-      await Promise.all([
-        ...subsections.map(subsection =>
-          axios.put(
-            `${process.env.REACT_APP_API_URL}/api/modules/subsection/${subsection._id}`,
-            { title: subsection.title, body: subsection.body },
-            { headers: { Authorization: `Bearer ${token}` } }
-          )
-        ),
-        ...quizzes.map(async (quiz) => {
-          await axios.put(
-            `${process.env.REACT_APP_API_URL}/api/modules/quiz/${quiz._id}`,
-            { title: quiz.title, description: quiz.description },
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-          if (quiz.questions?.length) {
-            await Promise.all(
-              quiz.questions.map(question =>
-                axios.patch(
-                  `${process.env.REACT_APP_API_URL}/api/modules/question/${question._id}`,
-                  { question: question.question, options: question.options, correctAnswer: question.correctAnswer },
-                  { headers: { Authorization: `Bearer ${token}` } }
-                )
-              )
-            );
-          }
-        }),
-        ...links.map(link =>
-          axios.put(
-            `${process.env.REACT_APP_API_URL}/api/modules/link/${link._id}`,
-            { title: link.title, link: link.link },
-            { headers: { Authorization: `Bearer ${token}` } }
-          )
-        )
-      ]);
-      
-      setSuccess("Module updated successfully!");
-      onModuleUpdated();
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      setError("Error updating module: " + errorMessage);
-      console.error(error);
-    }
+    window.alert("🚫 Change module content is disabled in demo mode."); 
   };
 
 

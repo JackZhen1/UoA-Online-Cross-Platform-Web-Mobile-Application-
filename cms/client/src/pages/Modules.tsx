@@ -40,27 +40,7 @@ const ModulesPage: React.FC = () => {
   }, []);
 
   const handleDeleteModule = async (moduleId: string) => {
-    try {
-      if (!moduleId) {
-        console.error("Module ID is undefined or empty");
-        setError("Cannot delete module: ID is missing");
-        return;
-      }
-
-      const token = localStorage.getItem("authToken");
-      await axios.delete(`${process.env.REACT_APP_API_URL}/api/modules/${moduleId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      fetchModules();
-      setDeleteConfirmModule(null);
-      setError(null);
-    } catch (error) {
-      console.error("Failed to delete module:", error);
-      setError("Failed to delete module. Please try again.");
-    }
+    window.alert("🚫 Module deletion is disabled in demo mode.");
   };
 
   const sortedModules = [...modules].sort((a, b) => {
