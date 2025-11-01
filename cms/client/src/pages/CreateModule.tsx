@@ -182,81 +182,9 @@ const CreateModule: React.FC<CreateModuleProps> = ({ onModuleCreated, setCreateM
     setDeleteConfirmLink(null);
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    const moduleData = {
-      title,
-      description,
-      iconKey, 
-    };
-
-    try {
-      const token = localStorage.getItem("authToken");
-      const moduleResponse = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/modules`, 
-        moduleData,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      const moduleId = moduleResponse.data.id || moduleResponse.data._id;
-      
-      if (subsections.length > 0) {
-        await Promise.all(
-          subsections.map(subsection => 
-            axios.post(
-              `${process.env.REACT_APP_API_URL}/api/modules/${moduleId}`, 
-              { ...subsection, authorID: "system" },
-              { headers: { Authorization: `Bearer ${token}` } }
-            )
-          )
-        );
-      }
-      
-      if (quizzes.length > 0) {
-        await Promise.all(
-          quizzes.map(async (quiz) => {
-            const quizResponse = await axios.post(
-              `${process.env.REACT_APP_API_URL}/api/modules/${moduleId}/quiz`,
-              { title: quiz.title, description: quiz.description },
-              { headers: { Authorization: `Bearer ${token}` } }
-            );
-            
-            const quizId = quizResponse.data._id;
-            
-            if (quiz.questions.length > 0) {
-              await Promise.all(
-                quiz.questions.map(question =>
-                  axios.post(
-                    `${process.env.REACT_APP_API_URL}/api/modules/quiz/${quizId}`,
-                    { ...question },
-                    { headers: { Authorization: `Bearer ${token}` } }
-                  )
-                )
-              );
-            }
-          })
-        );
-      }
-
-      if (links.length > 0) {
-        await Promise.all(
-          links.map(link =>
-            axios.post(
-              `${process.env.REACT_APP_API_URL}/api/modules/link/${moduleId}`,
-              { title: link.title, link: link.link },
-              { headers: { Authorization: `Bearer ${token}` } }
-            )
-          )
-        );
-      }
-      
-      setSuccess("Module created successfully!");
-      if (onModuleCreated) onModuleCreated();
-    } catch (error: any) {
-      setError("Error creating module: " + (error.response?.data?.message || error.message));
-      console.error(error);
-    }
+    window.alert("🚫 Module creation is disabled in demo mode.");
   };
 
   return (
