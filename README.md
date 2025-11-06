@@ -1,13 +1,17 @@
 # UoA Your Way – App & Content Management System (CMS)
 
-Welcome to the official repository for the **UoA Your Way** project. This system includes:
+Welcome to the demo repository for my **UoA Your Way** project. This system includes:
 
 - A mobile app built with React Native for end users.
 - A web-based content management system (CMS) for administrators to manage content.
-- 🗂️ Project Management Tools Used: [GitHub Issues](https://github.com/uoa-compsci399-2025-s1/capstone-project-2025-s1-team-5/issues)
 
 The UoA Your Way project is a dual-platform system designed to support international postgraduate students applying to the University of Auckland via a new offshore-to-onshore study pathway. It features a mobile app for students and a web-based content management system (CMS) for staff. The app helps students explore programmes, learn about university life and New Zealand culture, and stay engaged during the application process. The CMS allows staff with minimal technical experience to easily manage and update content. Together, the platforms aim to improve engagement, and offer a more accessible and personalised experience for students.
 
+This demo repository is to demonstrate the project, allowing anyone to experience the app, 
+for demonstartion purposees, any editing/deleting operations will not be allowed.
+
+A video demonstration for the project is here :
+https://www.youtube.com/watch?v=tDsgT_pjNCU
 ---
 
 ## 📦 Technologies Used
@@ -32,77 +36,19 @@ The UoA Your Way project is a dual-platform system designed to support internati
 
 ### 
 
----
-
-## 🛠 Prerequisites
-
-Make sure the following tools are installed before starting:
-
-- [Node.js](https://nodejs.org/)
-- [Git](https://git-scm.com/)
-- [Yarn](https://classic.yarnpkg.com/en/docs/install)  
-  If you don’t have it installed:
-  ```bash
-  npm install --global yarn
-  ```
-
----
 
 ## 🚀 Getting Started
 
-### 1. Clone the Repository
+CMS:
+Simply enter this url in your browser:
+https://399-cms.vercel.app/
+and using this demo user account:
+Email: demo@demo.com
+Password: 123456
 
-```bash
-git clone git@github.com:uoa-compsci399-2025-s1/capstone-project-2025-s1-team-5.git
-cd capstone-project-2025-s1-team-5
-```
 
----
 
-## 🧑‍💼 CMS Setup (Admin-Only Website)
 
-### Step 1: Install Dependencies
-
-```bash
-cd cms
-yarn install
-```
-
-### Step 2: Configure Client Environment
-
-Create a `.env` file in the `cms/client/` folder with the following:
-
-```env
-REACT_APP_API_URL=http://localhost:3000
-```
-
-### Step 3: Configure Server Environment
-
-Create a `.env` file in the `cms/server/` folder with the following:
-
-```env
-Hidden for security reason. Please contact vereinen00@gmail.com for keys
-```
-
-> ⚠️ **Security Notice:** Do **not** commit `.env` files to version control. Be sure `.env` is listed in `.gitignore`.
-> ⚠️ Server Environment Note: Some .env variables (e.g., AWS keys) used in the deployed server are not available locally for security reasons.
-> 📧 Need Access to Server Environment Keys? Contact the project maintainers via vereinen00@gmail.com for more information.
-
-### Step 4: Start the CMS
-
-From the `cms/` directory:
-
-```bash
-yarn start
-```
-
-Then open your browser and go to:
-
-```
-http://localhost:5000
-```
-
----
 
 ## 📱 Mobile App Setup
 
