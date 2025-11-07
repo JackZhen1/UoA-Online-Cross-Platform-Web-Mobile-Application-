@@ -49,11 +49,11 @@ Unfortunately, an .ipa (iOS installer) is not available for this demo due to App
 However, you can still experience the app even without an Android device.
 
 ✅ Option: Use an Android Emulator (Windows / macOS)
+
 You can install and run the APK using an emulator, such as:
 
-Android Studio Emulator
-
-BlueStacks
+* Android Studio Emulator
+* BlueStacks
 
 This allows you to use and test the app just like on a physical Android device.
 
