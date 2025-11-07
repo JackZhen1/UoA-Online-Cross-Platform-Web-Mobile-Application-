@@ -1,178 +1,142 @@
-# UoA Your Way – App & Content Management System (CMS)
+## 📱 UoA Your Way – Mobile App & CMS Demo
 
-Welcome to the demo repository for my **UoA Your Way** project. This system includes:
+**UoA Your Way** is a dual-platform system designed to support international students preparing to study at the University of Auckland through an offshore-to-onshore study pathway.
 
-- A mobile app built with React Native for end users.
-- A web-based content management system (CMS) for administrators to manage content.
+It consists of:
 
-The UoA Your Way project is a dual-platform system designed to support international postgraduate students applying to the University of Auckland via a new offshore-to-onshore study pathway. It features a mobile app for students and a web-based content management system (CMS) for staff. The app helps students explore programmes, learn about university life and New Zealand culture, and stay engaged during the application process. The CMS allows staff with minimal technical experience to easily manage and update content. Together, the platforms aim to improve engagement, and offer a more accessible and personalised experience for students.
+* 📱 A **React Native mobile app** for prospective students
+* 🖥️ A **web-based Content Management System (CMS)** for staff to easily manage learning modules and onboarding content
 
-This demo repository is to demonstrate the project, allowing anyone to experience the app, 
-for demonstartion purposees, any editing/deleting operations will not be allowed.
+The goal of this project is to improve pre-enrollment engagement and help international students explore programmes, campus life, and New Zealand culture — while giving university staff an intuitive tool to manage content with no technical knowledge required.
 
-A video demonstration for the project is here :
-https://www.youtube.com/watch?v=tDsgT_pjNCU
+> ✅ **This demo version disables editing and deletion actions to protect sample data.**
+
+🎥 **Video Demo:**
+[https://www.youtube.com/watch?v=tDsgT_pjNCU](https://www.youtube.com/watch?v=tDsgT_pjNCU)
+
 ---
 
-## 📦 Technologies Used
+## 🚀 Live Demo Access
 
-### 🟦 Mobile App
+### 🖥️ CMS Demo
 
-- **Language:** TypeScript
-- **Framework:** React Native
-- **Tooling:** Expo
+🔗 [https://399-cms.vercel.app/](https://399-cms.vercel.app/)
+**Login Credentials**
 
-### 🖥️ Content Management System (CMS)
-
-- **Frontend:**
-  - React
-  - TypeScript
-  - Tailwind CSS
-  - Tiptap (Rich Text Editor)
-- **Backend:**
-  - Node.js
-  - Express
-  - MongoDB (via Mongoose)
-
-### 
-
-
-## 🚀 Getting Started
-
-CMS:
-Simply enter this url in your browser:
-https://399-cms.vercel.app/
-and using this demo user account:
+```
 Email: demo@demo.com
 Password: 123456
-
-
-
-
-
-## 📱 Mobile App Setup
-
-> ⚠️ To launch the Expo app successfully, you must have the Content Management System (CMS) running in another terminal.
-> This is because the app depends on the CMS server for backend functionality.
-> Navigate to the cms folder and start the server before launching the Expo app.
-
-### Step 1: Install Expo Go on Your Mobile Device
-
-Download **Expo Go** from the [App Store](https://apps.apple.com/app/expo-go/id982107779) or [Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent).
-
-### Step 2: Install App Dependencies
-
-```bash
-cd app
-npm install
 ```
 
-### Step 3: Configure App Environment
+### 📱 Android App (APK)
 
-Create a `.env` file in the `app` folder with the following:
+Download from Releases:
+🔗 [https://github.com/JackZhen1/UoA-Online-Cross-Platform-Web-Mobile-Application-/releases/tag/v1.0.0](https://github.com/JackZhen1/UoA-Online-Cross-Platform-Web-Mobile-Application-/releases/tag/v1.0.0)
 
-```env
-EXPO_PUBLIC_API_URL=YourIPV4Address
+**Installation**
+
+1. Download the `.apk`
+2. Open it on your Android device
+3. Allow installation from unknown sources
+4. Log in with the demo account above
+
+---
+
+### IOS/ Windows
+unfortunatly, .apk equvilent for ios system(ipa) is not available due to the constraint with distributing the build on apple devices. However, If you have a laptop or PC, you can use an emulator such as android studio to install and run the apk to try out the app just like an android device. 
+
+📱 iOS & 💻 Windows / macOS Support
+
+Unfortunately, an .ipa (iOS installation file) is not available for this demo due to Apple’s strict app distribution policies — installing iOS apps outside the App Store requires device provisioning and Apple developer account enrollment.
+
+However, you can still experience the app even without an Android phone:
+
+Option 1 — Use an Android Emulator (Windows/macOS)
+You can install and run the APK using an emulator such as:
+
+Android Studio Emulator
+
+BlueStacks
+
+This allows you to try the mobile app just like on a real Android device.
+
+## 🧠 Tech Stack
+
+### Mobile App
+
+* React Native (Expo)
+* TypeScript
+* JWT-based authentication
+
+### CMS (Admin Panel)
+
+* React + TypeScript
+* TailwindCSS
+* Tiptap Rich Text Editor
+
+### Backend
+
+* Node.js + Express
+* MongoDB (Mongoose ORM)
+* REST API
+* JWT authentication & role-based access
+
+---
+
+## 🏗️ System Architecture
+
+```
+Mobile App  ⇄  REST API  ⇄  MongoDB
+    ↓               ↑
+CMS Admin UI  ──────┘
 ```
 
-### Step 4: Start the App
+---
 
-```bash
-npx expo start
-```
+## 📦 Deployment
+This demo version uses slightly different deployment platforms than the actual app, 
 
-A QR code will appear in your terminal or browser.
+| Service    | Platform                                |
+| ---------- | --------------------------------------- |
+| CMS        | Vercel                                  |
+| API        | Render
+| MongoDB    | MongoDB Atlas                           |
+| Mobile App | Expo EAS build (.apk)                   |
 
-### Step 5: Launch on Your Phone
-
-- Open the **Expo Go** app.
-- Scan the QR code.
-- The UoA Your Way app will launch on your device.
 
 ---
 
-## 🧾 Demonstration
+## 🌟 Future Enhancements
 
-A walkthrough video has been provided to demonstrate the app and CMS functionality:
-
-📽️ [Demo Video](https://youtu.be/tDsgT_pjNCU?si=VaF_hjuMOxOYwAaV)
-
----
-
-## 🚀 Deployment
-
-### 📂 Content Management System (CMS)
-
-The CMS is currently deployed on an AWS EC2 instance and is accessible via the following link:
-
-🌐 [http://3.107.214.51/](http://3.107.214.51/)
-
-> ⚠️ This deployment is for administrative use only and is not publicly listed.
-
-### 📱 Mobile App
-
-The mobile app is currently in **development mode** and has not yet been deployed to the **Apple App Store** or **Google Play Store**.
-
-- The app is built using **Expo**, which simplifies development and testing but requires additional steps to generate production-ready binaries.
-- Future plans include building and submitting standalone iOS and Android apps through the Expo build and submission pipeline.
+* ✅ Push to Google Play & Apple App Store via EAS build + store submissions
+* 🌏 China-accessible infrastructure (CDN + cloud hosting)
+* 📊 Analytics for student engagement & conversion tracking
+* 💬 Community support forum for international students
+* 🔐 Role-based admin tools & workflow approval system
 
 ---
 
-## 🔮 Future Plans
+## 👥 Team
 
-We plan to enhance and expand the platform with the following initiatives:
+This project was completed as part of **COMPSCI 399 – Capstone Project, University of Auckland**.
 
-### 🛒 App Store Releases
-
-- **Production Release**:  
-  Submit the mobile app to the **Apple App Store** and **Google Play Store** using Expo’s EAS Build system, ensuring:
-  - Proper branding, app store compliance, and assets
-  - Production configuration with secure environment variables
-  - Testing across various devices before publishing
-
-### 🌐 Community Engagement
-
-- **Forum for International Students**:  
-  Launch a community forum that enables overseas students to connect with each other and University of Auckland staff. This will help answer common questions and provide emotional and academic support.
-
-### 📊 Data Analytics
-
-- **User Insights & Tracking**:  
-  Implement analytics to collect meaningful data such as:
-  - Module clicks and time spent per section
-  - Quiz completions and scores
-  - Conversion tracking (e.g., app users who later apply or enroll at UoA)
-
-### 🌏 China-Compatible Infrastructure
-
-- **Global Accessibility**:  
-  Plan for deployment using infrastructure that ensures compatibility with China's internet environment by:
-  - Using CDN and database solutions compliant with Chinese regulations
-  - Hosting data closer to the region for improved speed and reliability
-
-These enhancements aim to improve usability, engagement, and global accessibility, particularly for international students.
-
----
-🙌 Acknowledgements
-
-This project was completed as part of COMPSCI 399 at the University of Auckland by the following team members:
-
-Leon Huang – Team Leader, CMS Full Stack Developer
-
-Derrick Trang – Project Manager, Backend Developer
-
-Jack Zhen – CMS/Mobile App Full Stack Developer
-
-Andy Xu – Mobile App Frontend Developer
-
-Gavin Ding – CMS Full Stack Developer
-
-Andrew Yao – Mobile App Frontend Developer
-
-We would also like to acknowledge Ellie Shedden for her valuable guidance and contributions throughout the development of this project.
+| Member        | Role                                    |
+| ------------- | --------------------------------------- |
+| Leon Huang    | Team Lead, CMS Full-Stack               |
+| Derrick Trang | PM, Backend Developer                   |
+| **Jack Zhen** | **Full-Stack (Mobile & CMS)** ✅ *(you)* |
+| Andy Xu       | Mobile Frontend                         |
+| Gavin Ding    | CMS Full-Stack                          |
+| Andrew Yao    | Mobile Frontend                         |
+| Advisor       | Ellie Shedden                           |
 
 ---
 
 ## 📝 License
 
-This project is part of the COMPSCI 399 capstone course at the University of Auckland. All rights reserved.
+This project was developed as part of a university capstone course.
+Usage is restricted for demonstration and academic purposes.
+
+---
+
+
