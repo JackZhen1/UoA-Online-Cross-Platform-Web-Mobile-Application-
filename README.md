@@ -48,7 +48,7 @@ Unfortunately, an .ipa (iOS installation file) is not available for this demo du
 
 However, you can still experience the app even without an Android phone:
 
-Option 1 — Use an Android Emulator (Windows/macOS)
+Use an Android Emulator (Windows/macOS)
 You can install and run the APK using an emulator such as:
 
 Android Studio Emulator
