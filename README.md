@@ -122,7 +122,7 @@ This project was completed as part of **COMPSCI 399 – Capstone Project, Univer
 | ------------- | --------------------------------------- |
 | Leon Huang    | Team Lead, CMS Full-Stack               |
 | Derrick Trang | PM, Backend Developer                   |
-| **Jack Zhen** | **Full-Stack (Mobile & CMS)** ✅ *(you)* |
+| **Jack Zhen** | **Full-Stack (Mobile & CMS)** ✅ *(me)* |
 | Andy Xu       | Mobile Frontend                         |
 | Gavin Ding    | CMS Full-Stack                          |
 | Andrew Yao    | Mobile Frontend                         |
