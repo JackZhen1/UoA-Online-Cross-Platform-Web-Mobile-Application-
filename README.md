@@ -21,6 +21,7 @@ The goal of this project is to improve pre-enrollment engagement and help intern
 ### 🖥️ CMS Demo
 
 🔗 [https://399-cms.vercel.app/](https://399-cms.vercel.app/)
+
 **Login Credentials**
 
 ```
@@ -40,10 +41,6 @@ Download from Releases:
 3. Allow installation from unknown sources
 4. Log in with the demo account above
 
----
-
-### IOS/ Windows
-unfortunatly, .apk equvilent for ios system(ipa) is not available due to the constraint with distributing the build on apple devices. However, If you have a laptop or PC, you can use an emulator such as android studio to install and run the apk to try out the app just like an android device. 
 
 📱 iOS & 💻 Windows / macOS Support
 
@@ -60,6 +57,7 @@ BlueStacks
 
 This allows you to try the mobile app just like on a real Android device.
 
+---
 ## 🧠 Tech Stack
 
 ### Mobile App
