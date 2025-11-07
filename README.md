@@ -14,6 +14,15 @@ The goal of this project is to improve pre-enrollment engagement and help intern
 🎥 **Video Demo:**
 [https://www.youtube.com/watch?v=tDsgT_pjNCU](https://www.youtube.com/watch?v=tDsgT_pjNCU)
 
+### 📱 Key Features
+
+* Custom module system with quizzes, external links, and info sections
+* Student support & guidance page
+* Personal profile page
+* Interactive campus map
+* Programme exploration page
+* Light / Dark mode theme
+
 ---
 
 ## 🚀 Live Demo Access
