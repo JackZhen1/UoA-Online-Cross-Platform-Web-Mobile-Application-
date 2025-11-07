@@ -42,21 +42,20 @@ Download from Releases:
 4. Log in with the demo account above
 
 
-📱 iOS & 💻 Windows / macOS Support
+📱 iOS & 💻 Desktop Access
 
-Unfortunately, an .ipa (iOS installation file) is not available for this demo due to Apple’s strict app distribution policies — installing iOS apps outside the App Store requires device provisioning and Apple developer account enrollment.
+Unfortunately, an .ipa (iOS installer) is not available for this demo due to Apple’s strict distribution policies — installing apps outside the App Store requires device provisioning and a paid Apple developer account.
 
-However, you can still experience the app even without an Android phone:
+However, you can still experience the app even without an Android device.
 
-Use an Android Emulator (Windows/macOS):
-
-You can install and run the APK using an emulator such as:
+✅ Option: Use an Android Emulator (Windows / macOS)
+You can install and run the APK using an emulator, such as:
 
 Android Studio Emulator
 
 BlueStacks
 
-This allows you to try the mobile app just like on a real Android device.
+This allows you to use and test the app just like on a physical Android device.
 
 ---
 ## 🧠 Tech Stack
@@ -93,7 +92,7 @@ CMS Admin UI  ──────┘
 ---
 
 ## 📦 Deployment
-This demo version uses slightly different deployment platforms than the actual app, 
+This demo uses a modified deployment setup compared to the full production environment to support public testing.
 
 | Service    | Platform                                |
 | ---------- | --------------------------------------- |
