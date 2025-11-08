@@ -92,11 +92,7 @@ This allows you to use and test the app just like on a physical Android device.
 
 ## 🏗️ System Architecture
 
-```
-Mobile App  ⇄  REST API  ⇄  MongoDB
-    ↓               ↑
-CMS Admin UI  ──────┘
-```
+![System Architecture](./assets/architecture.png)
 
 ---
 
